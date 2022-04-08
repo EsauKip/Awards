@@ -47,3 +47,16 @@ def profile(request):
     current_user = request.user
     projects = Project.objects.filter(user=current_user.id).all
     return render(request, 'registration/profile.html', {"projects": projects})    
+@login_required(login_url='/accounts/login/')
+def post_project(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            post_project = form.save(commit=False)
+            post_project.user = current_user
+            post_project.save()
+        return redirect('index')
+    else:
+        form = ProjectForm()
+    return render(request, 'project.html', {"form": form})
