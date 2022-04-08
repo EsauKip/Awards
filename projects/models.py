@@ -18,5 +18,18 @@ class profile(models.Model):
         return self.name
     def save_profile(self):
         self.save()
-            
+            #delete profile method
+    def delete_profile(self):
+        self.delete()
+        
+    @classmethod
+    def get_profile(cls,id):
+        profile = cls.objects.get(id=id)
+        return profile
+    @classmethod
+
+    def search_profile(cls,search_term):
+        profile = cls.objects.filter(name__icontains=search_term)
+        return profile
+
    
