@@ -21,7 +21,10 @@ class profile(models.Model):
             #delete profile method
     def delete_profile(self):
         self.delete()
-        
+        #update profile method
+    def update_profile(self):
+        self.update()
+
     @classmethod
     def get_profile(cls,id):
         profile = cls.objects.get(id=id)
@@ -31,5 +34,6 @@ class profile(models.Model):
     def search_profile(cls,search_term):
         profile = cls.objects.filter(name__icontains=search_term)
         return profile
+        
 
    
