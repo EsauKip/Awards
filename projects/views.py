@@ -60,3 +60,8 @@ def post_project(request):
     else:
         form = ProjectForm()
     return render(request, 'project.html', {"form": form})
+@login_required(login_url='/accounts/login/')
+def project(request, id):
+    project = Project.objects.get(id=id)
+    reviews = Rates.objects.all()
+    return render(request, 'view-project.html', {"project": project, "reviews": reviews})
