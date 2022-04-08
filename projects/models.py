@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 # Create your models here.
-class profile(models.Model):
+class Profile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
@@ -44,7 +44,7 @@ class Project(models.Model):
     image = CloudinaryField('images')
     link = models.CharField(max_length=100)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    profile = models.ForeignKey(profile,on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
     date=models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.title
@@ -76,7 +76,7 @@ class Rates(models.Model):
         ('10','10'),
     )
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    profile = models.ForeignKey(profile,on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
     project = models.ForeignKey(Project,on_delete=models.CASCADE)
     design = models.IntegerField(choices=RATE_CHOICES, default=0, blank=False)
     usability = models.IntegerField(
