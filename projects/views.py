@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse, HttpResponseRedirect
 from .models import Profile, Project, Rates
 from django.contrib.auth.models import User
-
+from .forms import ProjectForm,RatingsForm,SignUpForm, UpdateProfileForm, UpdateUserForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
@@ -25,5 +25,21 @@ def search(request):
     else:
         message = "You haven't searched for anything, please try again"
     return render(request, 'search.html', {'message': message})
+def signup(request):
+    print('here')
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db() 
+            user.profile.birth_date = form.cleaned_data.get('full_name')
+            user.save()
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=user.username, password=raw_password)
 
+            login(request, user)
+            return redirect('login')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/registration_form.html', {'form': form})
     
