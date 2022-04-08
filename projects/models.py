@@ -85,6 +85,11 @@ class Rates(models.Model):
     average = models.DecimalField(
         default=1, blank=False, decimal_places=2, max_digits=40)
     date = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.project.title
+  
+    
+
 
     
 
