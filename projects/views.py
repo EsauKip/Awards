@@ -10,7 +10,7 @@ from django.urls import reverse
 
 
 #APIS
-from .models import Profile, Project, Rates
+from .models import Profile, Project, Rates,Moringa
 from .serializers import ProfileSerializer, ProjectSerializer
 from django.http import Http404
 from rest_framework.views import APIView
@@ -113,15 +113,15 @@ def view_project(request, id):
     }
     return render(request, 'view-project.html', params)
 
-class ProfileList(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
+# class ProfileList(APIView):
+#     """
+#     List all snippets, or create a new snippet.
+#     """
 
-    def get(self, request, format=None):
-        profiles = Profile.objects.all()
-        serializer = ProfileSerializer(profiles, many=True)
-        return Response(serializer.data)
+#     def get(self, request, format=None):
+#         profiles = Profile.objects.all()
+#         serializer = ProfileSerializer(profiles, many=True)
+#         return Response(serializer.data)
 
 
 class ProjectList(APIView):
@@ -130,6 +130,37 @@ class ProjectList(APIView):
     """
 
     def get(self, request, format=None):
-        projects = Project.objects.all()
+        projects = Moringa.objects.all()
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
+
+def post(self, request, format=None):
+        serializers = ProjectSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+#it gets a single item i.e project
+class ProjectDescription(APIView):
+    # permission_classes = (IsAdminOrReadOnly,)
+    def get_project(self, pk):
+        try:
+            return Moringa.objects.get(pk=pk)
+        except Moringa.DoesNotExist:
+            return Http404
+    def get(self, request, pk, format=None):
+        project = self.get_project(pk)
+        serializers = ProjectSerializer(project)
+        return Response(serializers.data)
+    def put(self, request, pk, format=None):
+        project = self.get_project(pk)
+        serializers = ProjectSerializer(project, request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data)
+        else:
+            return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, pk, format=None):
+        project = self.get_project(pk)
+        project.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)      

@@ -10,11 +10,7 @@ class Profile(models.Model):
     email = models.EmailField(max_length=100)
     phone = models.CharField(max_length=100)
     profile_pic = CloudinaryField('images')
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    zipcode = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
+    bio=models.CharField(max_length=100)
     def __str__(self):
         return self.name
     def save_profile(self):
@@ -87,7 +83,10 @@ class Rates(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.project.title
-  
+class Moringa(models.Model):
+   title = models.CharField(max_length=40)
+   description = models.TextField()
+   url=models.URLField(max_length=100)
     
 
 

@@ -1,6 +1,6 @@
 from dataclasses import field
 from rest_framework import serializers
-from .models import Profile,Project
+from .models import Profile,Project,Moringa
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
@@ -16,8 +16,8 @@ class ProjectSerializer(serializers.ModelSerializer):
     user = UserSerializer(many=False, read_only=True)
 
     class Meta:
-        model = Project
-        fields = ['id', 'user', 'title', 'image', 'url','description','date']
-
+        model = Moringa
+        fields = ['title','url','description']
+      
 
      
