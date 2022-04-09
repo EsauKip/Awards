@@ -12,8 +12,12 @@ class ProfileSerializer(serializers.ModelSerializer):
     user=UserSerializer(many=False,read_only=True)
     class Meta:
         fields=['id','user', 'profile_pic', 'bio', 'contact']
-                
+class ProjectSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=False, read_only=True)
 
+    class Meta:
+        model = Project
+        fields = ['id', 'user', 'title', 'image', 'url','description','date']
 
 
      
