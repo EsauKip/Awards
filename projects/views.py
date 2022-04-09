@@ -124,3 +124,12 @@ class ProfileList(APIView):
         return Response(serializer.data)
 
 
+class ProjectList(APIView):
+    """
+    List all snippets, or create a new snippet.
+    """
+
+    def get(self, request, format=None):
+        projects = Project.objects.all()
+        serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data)
