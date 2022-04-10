@@ -16,6 +16,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from .permissions import IsAdminOrReadOnly
 # Create your views here.
 def index(request):
     profile = Profile.objects.all()
@@ -56,6 +57,17 @@ def profile(request):
     current_user = request.user
     projects = Project.objects.filter(user=current_user.id).all
     return render(request, 'registration/profile.html', {"projects": projects})    
+@login_required(login_url='/accounts/login/')
+def update_profile(request, id):
+    profile_object = get_object_or_404(Profile, user_id=id)
+    user_object = get_object_or_404(User, id=id)
+    profile_form = UpdateProfileForm(request.POST or None, request.FILES, instance=profile_object)
+    user_form = UpdateUserForm(request.POST or None, instance=user_object)
+    if profile_form.is_valid() and user_form.is_valid():
+        profile_form.save()
+        user_form.save()
+        return HttpResponseRedirect("/profile")
+    return render(request, "registration/update_profile.html", {"form": profile_form, "form2": user_form})
 @login_required(login_url='/accounts/login/')
 def post_project(request):
     current_user = request.user
@@ -142,7 +154,7 @@ def post(self, request, format=None):
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 #it gets a single item i.e project
 class ProjectDescription(APIView):
-    # permission_classes = (IsAdminOrReadOnly,)
+    permission_classes = (IsAdminOrReadOnly,)
     def get_project(self, pk):
         try:
             return Moringa.objects.get(pk=pk)
