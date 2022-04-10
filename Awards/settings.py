@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'rest_framework',
     'rest_framework.authtoken',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
