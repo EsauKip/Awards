@@ -1,40 +1,26 @@
-{% load bootstrap4 %}
-{% load static%}
+{% load bootstrap4 %} {% load static %}
 
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
-
-    {% if title %}
-    <title>Developers' Awwards - {{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> {% if title %}
+    <title>Awwwards Projects - {{title}}</title>
     {% else %}
-    <title> Developers' Awwards </title>
-    {% endif %}
-
-    {% block styles %}
-    {% bootstrap_css %}
-    <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
-    {% endblock %}
-
+    <title> Awwwards Projects </title>
+    {% endif %} {% block styles %} {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}"> {% endblock %}
 </head>
 
 <body>
 
-    {% include "navbar.html" %}
+    {% include "navbar.html" %} {% block content %}
 
-    {% block content %}
-
-    {%endblock%}
-
-    {% block scripts %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    {% bootstrap_javascript %}
-    {% endblock %}
+    <h1 class='text-center'>Welcome to Awwwards Projects{{date|date:"l d-F Y "}}</h1> {%endblock%} {% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js "></script>
+    {% bootstrap_javascript %} {% endblock %}
 
 </body>
 

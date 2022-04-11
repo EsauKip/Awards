@@ -1,32 +1,40 @@
-from .models import Profile, Project, Rates
-from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-  # signup form
-class SignUpForm(UserCreationForm):
-    full_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
-    class Meta:
-        model = User
-        fields=('username','full_name','email','password1','password2',)
+from .models import Profile,Post,ReviewRating,Rating
+from django.contrib.auth.models import User
 
-# updateUserForm
-class UpdateUserForm(forms.ModelForm):
-    email=forms.EmailField(max_length=30, required=False, help_text='Optional.')
-    class Meta:
-        model = User
-        fields=('username','email',)
 
-# UpdateProfileForm
-class UpdateProfileForm(forms.ModelForm):
+# registering user
+class Registration(UserCreationForm):
+  email = forms.EmailField()
+
+  class Meta:
+    model = User
+    fields = ['username','email','password1','password2']
+
+
+    # user post class
+
+class postProjectForm(forms.ModelForm):
+  class Meta:
+    model = Post
+    fields = ['title','url','description','photo']
+
+
+class UpdateProfile(forms.ModelForm):
+  class Meta:
+    model = Profile
+    fields = ['profile_photo','bio']
+
+class UpdateUser(forms.ModelForm):
+  email = forms.EmailField()
+  class Meta:
+    model = User
+    fields = ['username','email']
+
+
+
+class ReviewForm(forms.ModelForm):
     class Meta:
-        model=Profile
-        fields=['phone','profile_pic','email','bio']         
-class ProjectForm(forms.ModelForm):
-    class Meta:
-        model = Project
-        exclude = ['user', 'profile', 'date']
-class RatingsForm(forms.ModelForm):
-    class Meta:
-        model = Rates
+        model = Rating
         fields = ['design', 'usability', 'content']
